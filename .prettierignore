@@ -1,0 +1,5 @@
+# Ignore artifacts:
+build
+coverage
+src/auto-imports.d.ts
+node_modules

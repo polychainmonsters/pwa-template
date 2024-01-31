@@ -1,0 +1,1 @@
+export { useEmbeddedWallet } from "./useEmbeddedWallet";
