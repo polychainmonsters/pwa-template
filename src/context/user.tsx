@@ -2,9 +2,9 @@ import React, { createContext, useEffect, useState } from "react";
 import { Address } from "viem";
 
 import { usePrivy } from "@privy-io/react-auth";
-import { usePrivyWagmi } from "../sapphire/PrivyWagmiProvider.tsx";
+import { usePrivyWagmi } from "@privy-io/wagmi-connector";
 
-import { getChain, PLACEHOLDER_CHAIN_ID } from "../chain.ts";
+import { getChain, PLACEHOLDER_CHAIN_ID } from "../chains.ts";
 import { useUserName } from "../hooks";
 import { setUser } from "../errorHandler.ts";
 

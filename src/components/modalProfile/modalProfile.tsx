@@ -13,34 +13,12 @@ import { DropdownOption } from "../dropdown";
 import { Modal } from "../modal";
 import { contentTransition, contentVariants } from "./modalProfileMotion";
 import { ModalProfileProps } from "./modalProfileProps";
-import {
-  ActionBar,
-  ActionSheet,
-  Button,
-  Dropdown,
-  Ping,
-  WalletAddressBox,
-} from "..";
-import { usePrivyWagmi } from "../../sapphire/PrivyWagmiProvider.tsx";
-import { PLACEHOLDER_CHAIN_ID } from "../../chain.ts";
+import { ActionBar, ActionSheet, Button, Ping, WalletAddressBox } from "..";
+import { usePrivyWagmi } from "@privy-io/wagmi-connector";
+import { PLACEHOLDER_CHAIN_ID } from "../../chains.ts";
 import placeholder from "./placeholder.png";
 
 const REVISION = import.meta.env.VITE_REVISION;
-
-const NETWORKS: DropdownOption[] = [
-  {
-    label: "Chain: Orbit Testnet",
-    value: 421611,
-  },
-  {
-    label: "Chain: Oasis",
-    value: 23294,
-  },
-  {
-    label: "Chain: Polygon",
-    value: 137,
-  },
-];
 
 export const ModalProfile = ({
   userName = "",
@@ -50,10 +28,6 @@ export const ModalProfile = ({
   onClose,
 }: ModalProfileProps) => {
   const { wallet } = usePrivyWagmi();
-  const [network, setNetwork] = useState(NETWORKS[0]);
-  const handleSetNetwork = (network: DropdownOption) => {
-    setNetwork(network);
-  };
 
   // Lock body when modal is visible
   useLockedBody(isVisible, "root");
@@ -124,7 +98,7 @@ export const ModalProfile = ({
   // Check that your user has an embedded wallet
   const hasEmbeddedWallet = !!user?.linkedAccounts.find(
     (account) =>
-      account.type === "wallet" && account.walletClientType === "privy",
+      account.type === "wallet" && account.walletClientType === "privy"
   );
 
   const handleLogoutAsync = useCallback(async () => {
@@ -194,13 +168,6 @@ export const ModalProfile = ({
 
         <ActionBar variant="floating" className="rounded-3xl">
           <div className="flex flex-col flex-1 space-y-2">
-            <Dropdown
-              disabled
-              // label="Select Network"
-              options={NETWORKS}
-              selected={network}
-              onSelect={handleSetNetwork}
-            />
             <div className="flex flex-row flex-1 space-x-2">
               <Button
                 variant="light"
@@ -235,7 +202,7 @@ export const ModalProfile = ({
               className={twMerge(
                 "rounded-lg border-0.5 font-display font-bold text-lg w-full shadow-sm backdrop-blur-sm",
                 backgroundColor,
-                borderColor,
+                borderColor
               )}
             >
               <input

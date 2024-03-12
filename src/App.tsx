@@ -7,19 +7,20 @@ import { configureChains } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
 import { PrivyClientConfig, PrivyProvider } from "@privy-io/react-auth";
+import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
 
 import { AppRouter } from "./AppRouter";
-import { getChain } from "./chain.ts";
+import { getChain } from "./chains.ts";
 import { ModalOrientation } from "./components";
 import { UserProvider } from "./context";
 import { useLockOrientation, useOperatingSystem } from "./hooks";
-import { PrivyWagmiProvider, sapphireWrapProvider } from "./sapphire";
+import { sapphireWrapProvider } from "./sapphire";
 
 const activeChain = getChain(import.meta.env.VITE_CHAIN_ID as string);
 
 const configureChainsConfig = configureChains(
   [activeChain],
-  [sapphireWrapProvider(publicProvider())],
+  [sapphireWrapProvider(publicProvider())]
 );
 
 const TEST_PRIVY_ID = import.meta.env.VITE_PRIVY_ID as string;
@@ -32,7 +33,8 @@ const privyClientConfig: PrivyClientConfig = {
 
   embeddedWallets: {
     createOnLogin: "users-without-wallets",
-    noPromptOnSignature: true,
+    // set this to true if you don't want every tx to be confirmed
+    noPromptOnSignature: false,
   },
   appearance: {
     theme: "light",
@@ -59,7 +61,7 @@ function App() {
         import.meta.env.MODE === "production" ? "/sw.js" : "/dev-sw.js?dev-sw",
         {
           type: import.meta.env.MODE === "production" ? "classic" : "module",
-        },
+        }
       );
 
       wb.current?.addEventListener("controlling", (event) => {
@@ -82,11 +84,11 @@ function App() {
   return (
     <div className="App">
       <PrivyProvider appId={TEST_PRIVY_ID} config={privyClientConfig}>
-        <PrivyWagmiProvider wagmiChainsConfig={configureChainsConfig}>
+        <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
           <UserProvider>
             <AppRouter />
           </UserProvider>
-        </PrivyWagmiProvider>
+        </PrivyWagmiConnector>
       </PrivyProvider>
     </div>
   );

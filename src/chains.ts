@@ -24,7 +24,7 @@ export const sapphire = {
   blockExplorers: {
     default: {
       name: "Oasis Foundation",
-      url: "https://explorer.sapphire.oasis.io/",
+      url: "https://explorer.oasis.io/mainnet/sapphire",
     },
   },
 } as const satisfies Chain;

@@ -8,11 +8,11 @@ import {
 
 import { UsernamesV1Abi } from "../abis";
 import { contracts } from "../contracts.ts";
-import { PLACEHOLDER_CHAIN_ID } from "../../../chain.ts";
+import { PLACEHOLDER_CHAIN_ID } from "../../../chains.ts";
 
 export const useUserName = (
   chainId: string,
-  { address }: { address?: Address },
+  { address }: { address?: Address }
 ) => {
   const [newName, setNewNameInternal] = useState("");
 

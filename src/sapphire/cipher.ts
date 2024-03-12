@@ -390,7 +390,7 @@ function arrayify(byteslike: BytesLike): Uint8Array {
   if (isBytes(byteslike)) {
     return byteslike;
   } else if (isHex(byteslike)) {
-    return toBytes(byteslike.startsWith("0x") ? `0x${byteslike}` : byteslike);
+    return toBytes(byteslike.startsWith("0x") ? byteslike : `0x${byteslike}`);
   } else {
     throw new Error("attempted to decode non-byteslike data");
   }

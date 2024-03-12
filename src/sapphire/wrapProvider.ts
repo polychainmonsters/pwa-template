@@ -1,6 +1,6 @@
 import { Chain, ChainProviderFn } from "wagmi";
-import { sapphire as sapphireMainnet } from "../chain.ts";
 import * as sapphire from "@oasisprotocol/sapphire-paratime";
+import { isSapphire } from "./isSapphire.ts";
 
 export const sapphireWrapProvider =
   (wagmiChainProviderFunction: ChainProviderFn) => (chain: Chain) => {
@@ -13,12 +13,12 @@ export const sapphireWrapProvider =
     // @ts-ignore
     (wagmiChainProvider as any)._provider = wagmiChainProvider.provider;
 
-    if (chain.id === sapphireMainnet.id) {
-      console.log("Wrapping provider...");
-
+    if (isSapphire(chain.id)) {
       // @ts-ignore
       wagmiChainProvider.provider = () =>
         sapphire.wrap((wagmiChainProvider as any)._provider());
+
+      console.log("sapphireWrapProvider: wrapped sapphire provider");
     }
 
     return wagmiChainProvider;
